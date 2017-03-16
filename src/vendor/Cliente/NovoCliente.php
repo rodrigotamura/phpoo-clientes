@@ -1,6 +1,8 @@
 <?php
+namespace vendor\Cliente;
+use utils\ConectaBD;
 
-class Cliente
+class NovoCliente extends ConectaBD
 {
     private $id;
     private $nome;
@@ -83,5 +85,31 @@ class Cliente
            $mostra.= "<span class='glyphicon glyphicon-star' style='color:Orange; font-size:15px;'></span>&nbsp;";
         }
         return $mostra;
+   }
+
+   public function InsertDB(){
+      try{
+         $stmt = $this->db->prepare("INSERT INTO clientes (nome, pessoa, cpf_cnpj, telefone, email, endereco, grau) VALUES (:nome, :pessoa, :cpf_cnpj, :telefone, :email, :endereco, :grau)");
+         $stmt->bindParam(':nome', $this->nome);
+         $stmt->bindParam(':pessoa', $this->pessoa);
+         $stmt->bindParam(':cpf_cnpj', $this->cpf_cnpj);
+         $stmt->bindParam(':telefone', $this->telefone);
+         $stmt->bindParam(':email', $this->email);
+         $stmt->bindParam(':endereco', $this->endereco);
+         $stmt->bindParam(':grau', $this->grau);
+
+         $stmt->execute();
+
+         return true;
+
+      }catch (Exception $e){
+         die('Ocorreu algum erro ao registrar um cliente. ('.$e->getMessage().')');
+      }
+
+   }
+
+   public function getClientes(){
+      $statement = $this->instance->prepare("SELECT * FROM clientes");
+      return $statement->fetchAll();
    }
 }
