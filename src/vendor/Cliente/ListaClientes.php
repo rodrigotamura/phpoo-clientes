@@ -1,6 +1,6 @@
 <?php
 namespace vendor\Cliente;
-use utils\ConectaBD;
+use vendor\utils\ConectaBD;
 
 class ListaClientes extends ConectaBD
 {
